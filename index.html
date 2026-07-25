@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portal de Compras - EL GALAN. Gestión digital de compras a proveedores.">
+  <meta property="og:title" content="Portal de Compras EL GALAN">
+  <meta property="og:description" content="Sistema de gestión de compras a proveedores con cartera de vencimientos.">
+  <meta property="og:image" content="https://via.placeholder.com/1200x630?text=Portal+de+Compras+EL+GALAN">
+  <meta property="og:url" content="https://elgalan-compras.netlify.app">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Portal de Compras EL GALAN">
+  <meta name="twitter:description" content="Gestión digital de compras y cartera de vencimientos">
+  <meta name="twitter:image" content="https://via.placeholder.com/1200x630?text=Portal+de+Compras+EL+GALAN">
+  <title>Portal de Compras - EL GALAN</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    html, body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      line-height: 1.6;
+    }
+    
+    body {
+      padding-bottom: 40px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+    
+    header {
+      background: linear-gradient(135deg, #BA7517 0%, #854F0B 100%);
+      color: white;
+      padding: 20px 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+    
+    header h1 {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    
+    header p {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+    
+    .nav-tabs {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      border-bottom: 2px solid rgba(255,255,255,0.2);
+      overflow-x: auto;
+      padding-bottom: 0;
+    }
+    
+    .nav-tabs button {
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 14px;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s;
+      white-space: nowrap;
+    }
+    
+    .nav-tabs button:hover {
+      background: rgba(255,255,255,0.2);
+    }
+    
+    .nav-tabs button.active {
+      background: rgba(255,255,255,0.25);
+      border-bottom-color: white;
+    }
+    
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.3s;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .card {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    
+    .card h2 {
+      font-size: 18px;
+      margin-bottom: 20px;
+      color: #BA7517;
+      border-bottom: 2px solid #f0f0f0;
+      padding-bottom: 10px;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+      color: #555;
+      font-size: 14px;
+    }
+    
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: border-color 0.3s;
+    }
+    
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #BA7517;
+      box-shadow: 0 0 0 2px rgba(186,117,23,0.1);
+    }
+    
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+    
+    .btn-primary {
+      background: #BA7517;
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: #854F0B;
+    }
+    
+    .btn-secondary {
+      background: #ddd;
+      color: #333;
+    }
+    
+    .btn-secondary:hover {
+      background: #ccc;
+    }
+    
+    .btn-success {
+      background: #3B6D11;
+      color: white;
+    }
+    
+    .btn-success:hover {
+      background: #2d5409;
+    }
+    
+    .btn-danger {
+      background: #d32f2f;
+      color: white;
+    }
+    
+    .btn-danger:hover {
+      background: #b71c1c;
+    }
+    
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 13px;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    
+    th {
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: left;
+      font-weight: 600;
+      color: #555;
+      font-size: 13px;
+    }
+    
+    td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      font-size: 14px;
+    }
+    
+    tr:hover {
+      background: #f9f9f9;
+    }
+    
+    .alert {
+      padding: 15px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+    
+    .alert-info {
+      background: #e3f2fd;
+      border-left: 4px solid #2196f3;
+      color: #1565c0;
+    }
+    
+    .alert-success {
+      background: #e8f5e9;
+      border-left: 4px solid #4caf50;
+      color: #2e7d32;
+    }
+    
+    .alert-warning {
+      background: #fff3e0;
+      border-left: 4px solid #ff9800;
+      color: #e65100;
+    }
+    
+    .alert-danger {
+      background: #ffebee;
+      border-left: 4px solid #f44336;
+      color: #c62828;
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    
+    .badge-success {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+    
+    .badge-warning {
+      background: #fff3e0;
+      color: #e65100;
+    }
+    
+    .badge-danger {
+      background: #ffebee;
+      color: #c62828;
+    }
+    
+    .badge-info {
+      background: #e3f2fd;
+      color: #1565c0;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+    
+    .stat-card {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    .stat-card h3 {
+      font-size: 12px;
+      color: #999;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+    
+    .stat-card .value {
+      font-size: 32px;
+      font-weight: 600;
+      color: #BA7517;
+    }
+    
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .modal.active {
+      display: flex;
+    }
+    
+    .modal-content {
+      background: white;
+      border-radius: 8px;
+      padding: 30px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    
+    .modal-header {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #BA7517;
+    }
+    
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #999;
+    }
+    
+    .search-box {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .search-box input {
+      flex: 1;
+      min-width: 200px;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #999;
+    }
+    
+    .empty-state p {
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    
+    .action-buttons button {
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+    
+    .dias-vencer {
+      font-weight: 600;
+    }
+    
+    .dias-vencer.vencer-hoy {
+      color: #d32f2f;
+    }
+    
+    .dias-vencer.vencer-pronto {
+      color: #ff9800;
+    }
+    
+    .dias-vencer.ok {
+      color: #3B6D11;
+    }
+    
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 15px;
+    }
+    
+    @media print {
+      header, .nav-tabs, .btn-group, button, .search-box {
+        display: none;
+      }
+      body {
+        background: white;
+      }
+      .card {
+        box-shadow: none;
+        page-break-inside: avoid;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 22px;
+      }
+      
+      .nav-tabs {
+        gap: 5px;
+      }
+      
+      .nav-tabs button {
+        padding: 8px 12px;
+        font-size: 12px;
+      }
+      
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      table {
+        font-size: 12px;
+      }
+      
+      th, td {
+        padding: 8px;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+      }
+      
+      .action-buttons button {
+        width: 100%;
+      }
+    }
+    
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      color: #999;
+      font-size: 12px;
+      border-top: 1px solid #ddd;
+      margin-top: 40px;
+    }
+    
+    .install-prompt {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 999;
+    }
+    
+    .install-prompt.show {
+      display: block;
+      animation: slideUp 0.3s;
+    }
+    
+    @keyframes slideUp {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>📦 Portal de Compras</h1>
+      <p>Gestión Digital de Compras a Proveedores - EL GALAN</p>
+      <div class="nav-tabs">
+        <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
+        <button class="tab-btn" data-tab="compras">Compras</button>
+        <button class="tab-btn" data-tab="cartera">Cartera de Vencimientos</button>
+        <button class="tab-btn" data-tab="proveedores">Proveedores</button>
+        <button class="tab-btn" data-tab="reportes">Reportes</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    
+    <!-- DASHBOARD -->
+    <div id="dashboard" class="tab-content active">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h3>Total Proveedores</h3>
+          <div class="value" id="stat-proveedores">0</div>
+        </div>
+        <div class="stat-card">
+          <h3>Total Compras</h3>
+          <div class="value" id="stat-compras">0</div>
+        </div>
+        <div class="stat-card">
+          <h3>Cartera Pendiente</h3>
+          <div class="value" id="stat-cartera">$0</div>
+        </div>
+        <div class="stat-card">
+          <h3>Vencen Hoy</h3>
+          <div class="value" id="stat-hoy" style="color: #d32f2f;">0</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Compras Próximas a Vencer (15 días)</h2>
+        <div id="dashboard-vencimientos"></div>
+      </div>
+
+      <div class="card">
+        <h2>Acciones Rápidas</h2>
+        <div class="btn-group">
+          <button class="btn-primary" onclick="switchTab('compras')">➕ Nueva Compra</button>
+          <button class="btn-primary" onclick="switchTab('proveedores')">👥 Nuevo Proveedor</button>
+          <button class="btn-secondary" onclick="exportarCSV()">📥 Exportar Datos</button>
+          <button class="btn-secondary" onclick="respaldarDatos()">💾 Respaldar</button>
+          <button class="btn-secondary" onclick="restaurarDatos()">♻️ Restaurar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMPRAS -->
+    <div id="compras" class="tab-content">
+      <div class="card">
+        <h2>Registrar Nueva Compra</h2>
+        <div class="form-group">
+          <label>Proveedor *</label>
+          <select id="compra-proveedor" required>
+            <option value="">-- Seleccionar Proveedor --</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Número de Factura *</label>
+          <input type="text" id="compra-factura" placeholder="Ej: FAC-001" required>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Fecha de Compra *</label>
+            <input type="date" id="compra-fecha" required>
+          </div>
+          <div class="form-group">
+            <label>Monto de Compra ($) *</label>
+            <input type="number" id="compra-monto" step="0.01" min="0" required>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Plazo (días)</label>
+            <input type="number" id="compra-plazo" min="1" value="30">
+          </div>
+          <div class="form-group">
+            <label>Fecha de Vencimiento</label>
+            <input type="date" id="compra-vencimiento" readonly>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Observaciones</label>
+          <textarea id="compra-obs" rows="3" placeholder="Notas adicionales..."></textarea>
+        </div>
+
+        <div class="btn-group">
+          <button class="btn-primary" onclick="guardarCompra()">Guardar Compra</button>
+          <button class="btn-secondary" onclick="limpiarFormCompra()">Limpiar</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Listado de Compras</h2>
+        <div class="search-box">
+          <input type="text" id="search-compras" placeholder="Buscar por factura, proveedor..." onkeyup="filtrarCompras()">
+          <select id="filter-estado-compra" onchange="filtrarCompras()">
+            <option value="">Todos</option>
+            <option value="pendiente">Pendiente</option>
+            <option value="pagada">Pagada</option>
+          </select>
+        </div>
+        <div id="listado-compras"></div>
+      </div>
+    </div>
+
+    <!-- CARTERA DE VENCIMIENTOS -->
+    <div id="cartera" class="tab-content">
+      <div class="alert alert-info">
+        <strong>Cartera de Vencimientos:</strong> Listado de compras pendientes de pago ordenadas por fecha de vencimiento.
+      </div>
+
+      <div class="card">
+        <h2>Análisis de Vencimientos</h2>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3>Vencen Hoy</h3>
+            <div class="value" id="cartera-hoy">0</div>
+          </div>
+          <div class="stat-card">
+            <h3>Próximos 7 días</h3>
+            <div class="value" id="cartera-7">0</div>
+          </div>
+          <div class="stat-card">
+            <h3>Próximos 30 días</h3>
+            <div class="value" id="cartera-30">0</div>
+          </div>
+          <div class="stat-card">
+            <h3>Vencidas (atraso)</h3>
+            <div class="value" id="cartera-vencidas" style="color: #d32f2f;">0</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Cartera Pendiente de Pago</h2>
+        <div class="search-box">
+          <input type="text" id="search-cartera" placeholder="Buscar proveedor..." onkeyup="filtrarCartera()">
+          <select id="filter-estado-cartera" onchange="filtrarCartera()">
+            <option value="">Todos</option>
+            <option value="vencida">Vencida</option>
+            <option value="proxima">Próxima</option>
+            <option value="ok">OK</option>
+          </select>
+        </div>
+        <div id="listado-cartera"></div>
+      </div>
+    </div>
+
+    <!-- PROVEEDORES -->
+    <div id="proveedores" class="tab-content">
+      <div class="card">
+        <h2>Registrar Nuevo Proveedor</h2>
+        <div class="form-group">
+          <label>Nombre Proveedor *</label>
+          <input type="text" id="prov-nombre" placeholder="Ej: COLOMBINA, BRINSA..." required>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Ciudad</label>
+            <input type="text" id="prov-ciudad" placeholder="Ej: Medellín">
+          </div>
+          <div class="form-group">
+            <label>Plazo de Crédito (días)</label>
+            <input type="number" id="prov-plazo" min="1" value="30">
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Celular</label>
+            <input type="tel" id="prov-celular" placeholder="Ej: 3107700431">
+          </div>
+          <div class="form-group">
+            <label>WhatsApp</label>
+            <input type="tel" id="prov-whatsapp" placeholder="Ej: 3107700431">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Observaciones</label>
+          <textarea id="prov-obs" rows="2" placeholder="Datos adicionales..."></textarea>
+        </div>
+
+        <div class="btn-group">
+          <button class="btn-primary" onclick="guardarProveedor()">Guardar Proveedor</button>
+          <button class="btn-secondary" onclick="limpiarFormProveedor()">Limpiar</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Listado de Proveedores</h2>
+        <div class="search-box">
+          <input type="text" id="search-prov" placeholder="Buscar proveedor..." onkeyup="filtrarProveedores()">
+        </div>
+        <div id="listado-proveedores"></div>
+      </div>
+    </div>
+
+    <!-- REPORTES -->
+    <div id="reportes" class="tab-content">
+      <div class="card">
+        <h2>Reportes</h2>
+        <div class="btn-group">
+          <button class="btn-primary" onclick="reporteCartera()">📋 Reporte Cartera</button>
+          <button class="btn-primary" onclick="reporteProveedores()">👥 Reporte Proveedores</button>
+          <button class="btn-primary" onclick="reporteVencimientos()">⏰ Reporte Vencimientos</button>
+          <button class="btn-secondary" onclick="exportarCSV()">📥 Exportar CSV</button>
+        </div>
+      </div>
+
+      <div id="reporte-container"></div>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>Portal de Compras - EL GALAN | Desarrollada por Vibras Positivas HM — Derechos de Autor Reservados</p>
+    <p style="margin-top: 10px; font-size: 11px;">Datos guardados localmente en tu dispositivo. Sin conexión a internet requerida.</p>
+  </footer>
+
+  <div class="install-prompt" id="installPrompt">
+    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+      <strong>¡Instala esta App!</strong>
+      <button class="modal-close" onclick="cerrarInstall()">×</button>
+    </div>
+    <p style="font-size: 12px; margin-bottom: 10px;">Acceso rápido desde tu pantalla de inicio.</p>
+    <button class="btn-primary btn-sm" style="width: 100%;" onclick="instalarApp()">Instalar</button>
+  </div>
+
+  <script>
+    // ============= DATOS Y ESTADO =============
+    let deferredPrompt;
+    let proveedores = [];
+    let compras = [];
+    let hoy = new Date().toISOString().split('T')[0];
+
+    // Cargar datos desde localStorage
+    function cargarDatos() {
+      const proveedoresLS = localStorage.getItem('proveedores');
+      const comprasLS = localStorage.getItem('compras');
+      
+      if (proveedoresLS) proveedores = JSON.parse(proveedoresLS);
+      if (comprasLS) compras = JSON.parse(comprasLS);
+      
+      actualizarUI();
+    }
+
+    function guardarDatos() {
+      localStorage.setItem('proveedores', JSON.stringify(proveedores));
+      localStorage.setItem('compras', JSON.stringify(compras));
+    }
+
+    // ============= PROVEEDORES =============
+    function guardarProveedor() {
+      const nombre = document.getElementById('prov-nombre').value.trim();
+      const ciudad = document.getElementById('prov-ciudad').value.trim();
+      const plazo = parseInt(document.getElementById('prov-plazo').value) || 30;
+      const celular = document.getElementById('prov-celular').value.trim();
+      const whatsapp = document.getElementById('prov-whatsapp').value.trim();
+      const obs = document.getElementById('prov-obs').value.trim();
+
+      if (!nombre) {
+        alert('Por favor ingresa el nombre del proveedor');
+        return;
+      }
+
+      const id = Date.now().toString();
+      proveedores.push({
+        id,
+        nombre,
+        ciudad,
+        plazo,
+        celular,
+        whatsapp,
+        obs,
+        fecha_creacion: new Date().toISOString()
+      });
+
+      guardarDatos();
+      limpiarFormProveedor();
+      alert('✅ Proveedor registrado exitosamente');
+      actualizarUI();
+    }
+
+    function limpiarFormProveedor() {
+      document.getElementById('prov-nombre').value = '';
+      document.getElementById('prov-ciudad').value = '';
+      document.getElementById('prov-plazo').value = '30';
+      document.getElementById('prov-celular').value = '';
+      document.getElementById('prov-whatsapp').value = '';
+      document.getElementById('prov-obs').value = '';
+    }
+
+    function eliminarProveedor(id) {
+      if (confirm('¿Eliminar este proveedor? Se eliminarán todas sus compras.')) {
+        proveedores = proveedores.filter(p => p.id !== id);
+        compras = compras.filter(c => c.proveedor_id !== id);
+        guardarDatos();
+        alert('✅ Proveedor eliminado');
+        actualizarUI();
+      }
+    }
+
+    function editarProveedor(id) {
+      const prov = proveedores.find(p => p.id === id);
+      if (!prov) return;
+
+      document.getElementById('prov-nombre').value = prov.nombre;
+      document.getElementById('prov-ciudad').value = prov.ciudad;
+      document.getElementById('prov-plazo').value = prov.plazo;
+      document.getElementById('prov-celular').value = prov.celular;
+      document.getElementById('prov-whatsapp').value = prov.whatsapp;
+      document.getElementById('prov-obs').value = prov.obs;
+
+      const btn = document.querySelector('[onclick="guardarProveedor()"]');
+      btn.textContent = 'Actualizar Proveedor';
+      btn.onclick = () => {
+        if (confirm('¿Actualizar este proveedor?')) {
+          prov.nombre = document.getElementById('prov-nombre').value;
+          prov.ciudad = document.getElementById('prov-ciudad').value;
+          prov.plazo = parseInt(document.getElementById('prov-plazo').value);
+          prov.celular = document.getElementById('prov-celular').value;
+          prov.whatsapp = document.getElementById('prov-whatsapp').value;
+          prov.obs = document.getElementById('prov-obs').value;
+          guardarDatos();
+          alert('✅ Proveedor actualizado');
+          btn.textContent = 'Guardar Proveedor';
+          btn.onclick = guardarProveedor;
+          limpiarFormProveedor();
+          actualizarUI();
+        }
+      };
+
+      switchTab('proveedores');
+      document.getElementById('prov-nombre').focus();
+    }
+
+    // ============= COMPRAS =============
+    function guardarCompra() {
+      const prov_id = document.getElementById('compra-proveedor').value;
+      const factura = document.getElementById('compra-factura').value.trim();
+      const fecha = document.getElementById('compra-fecha').value;
+      const monto = parseFloat(document.getElementById('compra-monto').value);
+      const plazo = parseInt(document.getElementById('compra-plazo').value);
+      const vencimiento = document.getElementById('compra-vencimiento').value;
+      const obs = document.getElementById('compra-obs').value.trim();
+
+      if (!prov_id || !factura || !fecha || !monto) {
+        alert('Por favor completa los campos obligatorios (*)');
+        return;
+      }
+
+      if (compras.some(c => c.proveedor_id === prov_id && c.factura === factura)) {
+        alert('Ya existe una compra con este número de factura para este proveedor');
+        return;
+      }
+
+      const id = Date.now().toString();
+      compras.push({
+        id,
+        proveedor_id: prov_id,
+        factura,
+        fecha,
+        monto,
+        plazo,
+        vencimiento,
+        pagada: false,
+        obs,
+        fecha_registro: new Date().toISOString()
+      });
+
+      guardarDatos();
+      limpiarFormCompra();
+      alert('✅ Compra registrada exitosamente');
+      actualizarUI();
+    }
+
+    function limpiarFormCompra() {
+      document.getElementById('compra-proveedor').value = '';
+      document.getElementById('compra-factura').value = '';
+      document.getElementById('compra-fecha').value = hoy;
+      document.getElementById('compra-monto').value = '';
+      document.getElementById('compra-plazo').value = '30';
+      document.getElementById('compra-vencimiento').value = '';
+      document.getElementById('compra-obs').value = '';
+    }
+
+    function calcularVencimiento() {
+      const fecha = document.getElementById('compra-fecha').value;
+      const plazo = parseInt(document.getElementById('compra-plazo').value) || 0;
+      
+      if (fecha && plazo > 0) {
+        const d = new Date(fecha);
+        d.setDate(d.getDate() + plazo);
+        document.getElementById('compra-vencimiento').value = d.toISOString().split('T')[0];
+      }
+    }
+
+    function eliminarCompra(id) {
+      if (confirm('¿Eliminar esta compra?')) {
+        compras = compras.filter(c => c.id !== id);
+        guardarDatos();
+        alert('✅ Compra eliminada');
+        actualizarUI();
+      }
+    }
+
+    function marcarPagada(id) {
+      const compra = compras.find(c => c.id === id);
+      if (compra) {
+        compra.pagada = !compra.pagada;
+        guardarDatos();
+        actualizarUI();
+      }
+    }
+
+    // ============= CÁLCULOS DE VENCIMIENTO =============
+    function calcularDiasVencer(fecha_vencimiento) {
+      const hoy_date = new Date(hoy);
+      const venc_date = new Date(fecha_vencimiento);
+      const diff = Math.floor((venc_date - hoy_date) / (1000 * 60 * 60 * 24));
+      return diff;
+    }
+
+    function claseDiasVencer(dias) {
+      if (dias < 0) return 'vencer-hoy';
+      if (dias <= 7) return 'vencer-pronto';
+      return 'ok';
+    }
+
+    function estadoDiasVencer(dias) {
+      if (dias < 0) return `${Math.abs(dias)} días atraso`;
+      if (dias === 0) return 'Vence hoy';
+      if (dias === 1) return '1 día';
+      return `${dias} días`;
+    }
+
+    // ============= UI UPDATES =============
+    function actualizarUI() {
+      actualizarSelecProveedores();
+      actualizarDashboard();
+      actualizarListadoCompras();
+      actualizarListadoProveedores();
+      actualizarCartera();
+    }
+
+    function actualizarSelecProveedores() {
+      const select = document.getElementById('compra-proveedor');
+      const opcionActual = select.value;
+      
+      select.innerHTML = '<option value="">-- Seleccionar Proveedor --</option>';
+      
+      proveedores.forEach(p => {
+        const option = document.createElement('option');
+        option.value = p.id;
+        option.textContent = p.nombre;
+        select.appendChild(option);
+      });
+
+      select.value = opcionActual;
+      
+      // Actualizar plazo cuando cambia proveedor
+      select.addEventListener('change', function() {
+        const prov = proveedores.find(p => p.id === this.value);
+        if (prov) {
+          document.getElementById('compra-plazo').value = prov.plazo;
+          calcularVencimiento();
+        }
+      });
+    }
+
+    function actualizarDashboard() {
+      document.getElementById('stat-proveedores').textContent = proveedores.length;
+      document.getElementById('stat-compras').textContent = compras.length;
+
+      const comprasPendientes = compras.filter(c => !c.pagada);
+      const carteraTotal = comprasPendientes.reduce((sum, c) => sum + c.monto, 0);
+      document.getElementById('stat-cartera').textContent = '$' + carteraTotal.toLocaleString('es-CO', {minimumFractionDigits: 0});
+
+      const hoyCount = comprasPendientes.filter(c => calcularDiasVencer(c.vencimiento) <= 0).length;
+      document.getElementById('stat-hoy').textContent = hoyCount;
+
+      // Dashboard vencimientos
+      const dashboardVenc = document.getElementById('dashboard-vencimientos');
+      const proximo15 = comprasPendientes
+        .filter(c => {
+          const dias = calcularDiasVencer(c.vencimiento);
+          return dias >= 0 && dias <= 15;
+        })
+        .sort((a, b) => calcularDiasVencer(a.vencimiento) - calcularDiasVencer(b.vencimiento));
+
+      if (proximo15.length === 0) {
+        dashboardVenc.innerHTML = '<div class="alert alert-success">✅ No hay compras próximas a vencer en los próximos 15 días.</div>';
+      } else {
+        let html = '<table><thead><tr><th>Proveedor</th><th>Factura</th><th>Monto</th><th>Vencimiento</th></tr></thead><tbody>';
+        proximo15.forEach(c => {
+          const prov = proveedores.find(p => p.id === c.proveedor_id);
+          const dias = calcularDiasVencer(c.vencimiento);
+          const clase = claseDiasVencer(dias);
+          html += `<tr>
+            <td>${prov?.nombre || 'N/A'}</td>
+            <td>${c.factura}</td>
+            <td>$${c.monto.toLocaleString('es-CO', {minimumFractionDigits: 2})}</td>
+            <td><span class="dias-vencer ${clase}">${c.vencimiento} (${estadoDiasVencer(dias)})</span></td>
+          </tr>`;
+        });
+        html += '</tbody></table>';
+        dashboardVenc.innerHTML = html;
+      }
+    }
+
+    function actualizarListadoCompras() {
+      const listado = document.getElementById('listado-compras');
+      
+      if (compras.length === 0) {
+        listado.innerHTML = '<div class="empty-state"><p>📭 No hay compras registradas aún.</p><button class="btn-primary" onclick="switchTab(\'compras\')">Registrar una compra</button></div>';
+        return;
+      }
+
+      let html = '<table><thead><tr><th>Factura</th><th>Proveedor</th><th>Fecha</th><th>Monto</th><th>Vencimiento</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>';
+
+      compras.forEach(c => {
+        const prov = proveedores.find(p => p.id === c.proveedor_id);
+        const estadoBadge = c.pagada ? '<span class="badge badge-success">Pagada</span>' : '<span class="badge badge-warning">Pendiente</span>';
+        
+        html += `<tr>
+          <td><strong>${c.factura}</strong></td>
+          <td>${prov?.nombre || 'N/A'}</td>
+          <td>${c.fecha}</td>
+          <td>$${c.monto.toLocaleString('es-CO', {minimumFractionDigits: 2})}</td>
+          <td>${c.vencimiento}</td>
+          <td>${estadoBadge}</td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn-sm btn-secondary" onclick="marcarPagada('${c.id}')">${c.pagada ? '↩️ Marcar Pendiente' : '✓ Marcar Pagada'}</button>
+              <button class="btn-sm btn-danger" onclick="eliminarCompra('${c.id}')">🗑️ Eliminar</button>
+            </div>
+          </td>
+        </tr>`;
+      });
+
+      html += '</tbody></table>';
+      listado.innerHTML = html;
+    }
+
+    function actualizarListadoProveedores() {
+      const listado = document.getElementById('listado-proveedores');
+      
+      if (proveedores.length === 0) {
+        listado.innerHTML = '<div class="empty-state"><p>👥 No hay proveedores registrados aún.</p><button class="btn-primary" onclick="switchTab(\'proveedores\')">Registrar un proveedor</button></div>';
+        return;
+      }
+
+      let html = '<table><thead><tr><th>Nombre</th><th>Ciudad</th><th>Plazo</th><th>Celular</th><th>WhatsApp</th><th>Compras</th><th>Acciones</th></tr></thead><tbody>';
+
+      proveedores.forEach(p => {
+        const comprasCount = compras.filter(c => c.proveedor_id === p.id).length;
+        
+        html += `<tr>
+          <td><strong>${p.nombre}</strong></td>
+          <td>${p.ciudad || '-'}</td>
+          <td>${p.plazo} días</td>
+          <td>${p.celular ? `<a href="tel:${p.celular}">${p.celular}</a>` : '-'}</td>
+          <td>${p.whatsapp ? `<a href="https://wa.me/${p.whatsapp.replace(/\\D/g, '')}" target="_blank">📱</a>` : '-'}</td>
+          <td>${comprasCount}</td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn-sm btn-secondary" onclick="editarProveedor('${p.id}')">✏️ Editar</button>
+              <button class="btn-sm btn-danger" onclick="eliminarProveedor('${p.id}')">🗑️ Eliminar</button>
+            </div>
+          </td>
+        </tr>`;
+      });
+
+      html += '</tbody></table>';
+      listado.innerHTML = html;
+    }
+
+    function actualizarCartera() {
+      const comprasPendientes = compras.filter(c => !c.pagada);
+
+      const hoy_count = comprasPendientes.filter(c => calcularDiasVencer(c.vencimiento) <= 0).length;
+      const dias7 = comprasPendientes.filter(c => {
+        const d = calcularDiasVencer(c.vencimiento);
+        return d > 0 && d <= 7;
+      }).length;
+      const dias30 = comprasPendientes.filter(c => {
+        const d = calcularDiasVencer(c.vencimiento);
+        return d > 7 && d <= 30;
+      }).length;
+      const vencidas = comprasPendientes.filter(c => calcularDiasVencer(c.vencimiento) < 0).length;
+
+      document.getElementById('cartera-hoy').textContent = hoy_count;
+      document.getElementById('cartera-7').textContent = dias7;
+      document.getElementById('cartera-30').textContent = dias30;
+      document.getElementById('cartera-vencidas').textContent = vencidas;
+
+      // Listado cartera
+      const listado = document.getElementById('listado-cartera');
+      
+      if (comprasPendientes.length === 0) {
+        listado.innerHTML = '<div class="alert alert-success">✅ No hay compras pendientes de pago.</div>';
+        return;
+      }
+
+      const sorted = comprasPendientes.sort((a, b) => new Date(a.vencimiento) - new Date(b.vencimiento));
+
+      let html = '<table><thead><tr><th>Proveedor</th><th>Factura</th><th>Monto</th><th>Fecha Compra</th><th>Vencimiento</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>';
+
+      sorted.forEach(c => {
+        const prov = proveedores.find(p => p.id === c.proveedor_id);
+        const dias = calcularDiasVencer(c.vencimiento);
+        const clase = claseDiasVencer(dias);
+        const estadoTexto = estadoDiasVencer(dias);
+        
+        let estadoBadge;
+        if (dias < 0) estadoBadge = '<span class="badge badge-danger">Vencida</span>';
+        else if (dias <= 7) estadoBadge = '<span class="badge badge-warning">Próxima</span>';
+        else estadoBadge = '<span class="badge badge-success">OK</span>';
+
+        const whatsappLink = prov?.whatsapp ? `<a href="https://wa.me/${prov.whatsapp.replace(/\\D/g, '')}?text=Compra%20${c.factura}%20por%20$${c.monto}" target="_blank" class="btn-sm btn-secondary">📱 WhatsApp</a>` : '';
+
+        html += `<tr>
+          <td><strong>${prov?.nombre || 'N/A'}</strong></td>
+          <td>${c.factura}</td>
+          <td>$${c.monto.toLocaleString('es-CO', {minimumFractionDigits: 2})}</td>
+          <td>${c.fecha}</td>
+          <td><span class="dias-vencer ${clase}">${c.vencimiento}</span></td>
+          <td>${estadoBadge}<br><small>${estadoTexto}</small></td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn-sm btn-secondary" onclick="marcarPagada('${c.id}')">✓ Pagar</button>
+              ${whatsappLink}
+            </div>
+          </td>
+        </tr>`;
+      });
+
+      html += '</tbody></table>';
+      listado.innerHTML = html;
+    }
+
+    // ============= FILTROS =============
+    function filtrarCompras() {
+      const search = document.getElementById('search-compras').value.toLowerCase();
+      const estado = document.getElementById('filter-estado-compra').value;
+      
+      const filtered = compras.filter(c => {
+        const prov = proveedores.find(p => p.id === c.proveedor_id);
+        const matchSearch = c.factura.toLowerCase().includes(search) || 
+                          (prov && prov.nombre.toLowerCase().includes(search));
+        const matchEstado = !estado || (estado === 'pagada' ? c.pagada : !c.pagada);
+        return matchSearch && matchEstado;
+      });
+
+      let html = '<table><thead><tr><th>Factura</th><th>Proveedor</th><th>Fecha</th><th>Monto</th><th>Vencimiento</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>';
+
+      filtered.forEach(c => {
+        const prov = proveedores.find(p => p.id === c.proveedor_id);
+        const estadoBadge = c.pagada ? '<span class="badge badge-success">Pagada</span>' : '<span class="badge badge-warning">Pendiente</span>';
+        
+        html += `<tr>
+          <td><strong>${c.factura}</strong></td>
+          <td>${prov?.nombre || 'N/A'}</td>
+          <td>${c.fecha}</td>
+          <td>$${c.monto.toLocaleString('es-CO', {minimumFractionDigits: 2})}</td>
+          <td>${c.vencimiento}</td>
+          <td>${estadoBadge}</td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn-sm btn-secondary" onclick="marcarPagada('${c.id}')">${c.pagada ? '↩️ Pendiente' : '✓ Pagada'}</button>
+              <button class="btn-sm btn-danger" onclick="eliminarCompra('${c.id}')">🗑️ Eliminar</button>
+            </div>
+          </td>
+        </tr>`;
+      });
+
+      html += '</tbody></table>';
+      document.getElementById('listado-compras').innerHTML = html;
+    }
+
+    function filtrarCartera() {
+      const search = document.getElementById('search-cartera').value.toLowerCase();
+      const estado = document.getElementById('filter-estado-cartera').value;
+      
+      const comprasPendientes = compras.filter(c => !c.pagada);
+      const filtered = comprasPendientes.filter(c => {
+        const prov = proveedores.find(p => p.id === c.proveedor_id);
+        const matchSearch = !search || (prov && prov.nombre.toLowerCase().includes(search));
+        
+        let matchEstado = true;
+        if (estado) {
+          const dias = calcularDiasVencer(c.vencimiento);
+          if (estado === 'vencida') matchEstado = dias < 0;
+          else if (estado === 'proxima') matchEstado = dias >= 0 && dias <= 7;
+          else if (estado === 'ok') matchEstado = dias > 7;
+        }
+        
+        return matchSearch && matchEstado;
+      });
+
+      let html = '<table><thead><tr><th>Proveedor</th><th>Factura</th><th>Monto</th><th>Fecha Compra</th><th>Vencimiento</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>';
+
+      filtered.forEach(c => {
+        const prov = proveedores.find(p => p.id === c.proveedor_id);
+        const dias = calcularDiasVencer(c.vencimiento);
+        const clase = claseDiasVencer(dias);
+        const estadoTexto = estadoDiasVencer(dias);
+        
+        let estadoBadge;
+        if (dias < 0) estadoBadge = '<span class="badge badge-danger">Vencida</span>';
+        else if (dias <= 7) estadoBadge = '<span class="badge badge-warning">Próxima</span>';
+        else estadoBadge = '<span class="badge badge-success">OK</span>';
+
+        const whatsappLink = prov?.whatsapp ? `<a href="https://wa.me/${prov.whatsapp.replace(/\\D/g, '')}" target="_blank" class="btn-sm btn-secondary">📱 WA</a>` : '';
+
+        html += `<tr>
+          <td><strong>${prov?.nombre || 'N/A'}</strong></td>
+          <td>${c.factura}</td>
+          <td>$${c.monto.toLocaleString('es-CO', {minimumFractionDigits: 2})}</td>
+          <td>${c.fecha}</td>
+          <td><span class="dias-vencer ${clase}">${c.vencimiento}</span></td>
+          <td>${estadoBadge}<br><small>${estadoTexto}</small></td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn-sm btn-secondary" onclick="marcarPagada('${c.id}')">✓ Pagar</button>
+              ${whatsappLink}
+            </div>
+          </td>
+        </tr>`;
+      });
+
+      html += '</tbody></table>';
+      document.getElementById('listado-cartera').innerHTML = html;
+    }
+
+    function filtrarProveedores() {
+      const search = document.getElementById('search-prov').value.toLowerCase();
+      
+      const filtered = proveedores.filter(p => 
+        p.nombre.toLowerCase().includes(search) || 
+        p.ciudad.toLowerCase().includes(search)
+      );
+
+      let html = '<table><thead><tr><th>Nombre</th><th>Ciudad</th><th>Plazo</th><th>Celular</th><th>WhatsApp</th><th>Compras</th><th>Acciones</th></tr></thead><tbody>';
+
+      filtered.forEach(p => {
+        const comprasCount = compras.filter(c => c.proveedor_id === p.id).length;
+        
+        html += `<tr>
+          <td><strong>${p.nombre}</strong></td>
+          <td>${p.ciudad || '-'}</td>
+          <td>${p.plazo} días</td>
+          <td>${p.celular ? `<a href="tel:${p.celular}">${p.celular}</a>` : '-'}</td>
+          <td>${p.whatsapp ? `<a href="https://wa.me/${p.whatsapp.replace(/\\D/g, '')}" target="_blank">📱</a>` : '-'}</td>
+          <td>${comprasCount}</td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn-sm btn-secondary" onclick="editarProveedor('${p.id}')">✏️ Editar</button>
+              <button class="btn-sm btn-danger" onclick="eliminarProveedor('${p.id}')">🗑️ Eliminar</button>
+            </div>
+          </td>
+        </tr>`;
+      });
+
+      html += '</tbody></table>';
+      document.getElementById('listado-proveedores').innerHTML = html;
+    }
+
+    // ============= REPORTES =============
+    function reporteCartera() {
+      const comprasPendientes = compras.filter(c => !c.pagada);
+      const carteraTotal = comprasPendientes.reduce((sum, c) => sum + c.monto, 0);
+
+      let html = '<div class="card"><h2>📋 Reporte de Cartera</h2>';
+      html += `<p><strong>Fecha Generado:</strong> ${new Date().toLocaleString('es-CO')}</p>`;
+      html += `<p><strong>Total Cartera Pendiente:</strong> $${carteraTotal.toLocaleString('es-CO', {minimumFractionDigits: 2})}</p>`;
+      html += '<table><thead><tr><th>Proveedor</th><th>Factura</th><th>Monto</th><th>Vencimiento</th><th>Días para Vencer</th></tr></thead><tbody>';
+
+      comprasPendientes.sort((a, b) => new Date(a.vencimiento) - new Date(b.vencimiento)).forEach(c => {
+        const prov = proveedores.find(p => p.id === c.proveedor_id);
+        const dias = calcularDiasVencer(c.vencimiento);
+        html += `<tr>
+          <td>${prov?.nombre}</td>
+          <td>${c.factura}</td>
+          <td>$${c.monto.toLocaleString('es-CO', {minimumFractionDigits: 2})}</td>
+          <td>${c.vencimiento}</td>
+          <td>${dias < 0 ? `<span style="color: red;">${Math.abs(dias)} días atraso</span>` : dias}</td>
+        </tr>`;
+      });
+
+      html += '</tbody></table><div class="btn-group" style="margin-top: 20px;"><button class="btn-secondary" onclick="window.print()">🖨️ Imprimir</button></div></div>';
+      document.getElementById('reporte-container').innerHTML = html;
+      switchTab('reportes');
+    }
+
+    function reporteProveedores() {
+      let html = '<div class="card"><h2>👥 Reporte de Proveedores</h2>';
+      html += `<p><strong>Fecha Generado:</strong> ${new Date().toLocaleString('es-CO')}</p>`;
+      html += `<p><strong>Total Proveedores:</strong> ${proveedores.length}</p>`;
+      html += '<table><thead><tr><th>Nombre</th><th>Ciudad</th><th>Plazo Crédito</th><th>Celular</th><th>Total Compras</th><th>Monto Total</th></tr></thead><tbody>';
+
+      proveedores.forEach(p => {
+        const comprasProveedor = compras.filter(c => c.proveedor_id === p.id);
+        const montoTotal = comprasProveedor.reduce((sum, c) => sum + c.monto, 0);
+        html += `<tr>
+          <td>${p.nombre}</td>
+          <td>${p.ciudad || '-'}</td>
+          <td>${p.plazo} días</td>
+          <td>${p.celular || '-'}</td>
+          <td>${comprasProveedor.length}</td>
+          <td>$${montoTotal.toLocaleString('es-CO', {minimumFractionDigits: 2})}</td>
+        </tr>`;
+      });
+
+      html += '</tbody></table><div class="btn-group" style="margin-top: 20px;"><button class="btn-secondary" onclick="window.print()">🖨️ Imprimir</button></div></div>';
+      document.getElementById('reporte-container').innerHTML = html;
+      switchTab('reportes');
+    }
+
+    function reporteVencimientos() {
+      const hoy_date = new Date(hoy);
+      const comprasPendientes = compras.filter(c => !c.pagada);
+
+      const vencidas = comprasPendientes.filter(c => new Date(c.vencimiento) < hoy_date);
+      const proxima7 = comprasPendientes.filter(c => {
+        const d = new Date(c.vencimiento);
+        return d >= hoy_date && (d - hoy_date) <= 7 * 24 * 60 * 60 * 1000;
+      });
+      const proxima30 = comprasPendientes.filter(c => {
+        const d = new Date(c.vencimiento);
+        return d > new Date(hoy_date.getTime() + 7 * 24 * 60 * 60 * 1000) && (d - hoy_date) <= 30 * 24 * 60 * 60 * 1000;
+      });
+
+      let html = '<div class="card"><h2>⏰ Reporte de Vencimientos</h2>';
+      html += `<p><strong>Fecha Generado:</strong> ${new Date().toLocaleString('es-CO')}</p>`;
+
+      html += '<h3 style="margin-top: 20px; color: #d32f2f;">🔴 COMPRAS VENCIDAS (' + vencidas.length + ')</h3>';
+      if (vencidas.length === 0) {
+        html += '<p style="color: #999;">No hay compras vencidas.</p>';
+      } else {
+        html += '<table><thead><tr><th>Proveedor</th><th>Factura</th><th>Monto</th><th>Vencimiento</th><th>Días Atraso</th></tr></thead><tbody>';
+        vencidas.forEach(c => {
+          const prov = proveedores.find(p => p.id === c.proveedor_id);
+          const dias = calcularDiasVencer(c.vencimiento);
+          html += `<tr><td>${prov?.nombre}</td><td>${c.factura}</td><td>$${c.monto.toLocaleString('es-CO', {minimumFractionDigits: 2})}</td><td>${c.vencimiento}</td><td>${Math.abs(dias)}</td></tr>`;
+        });
+        html += '</tbody></table>';
+      }
+
+      html += '<h3 style="margin-top: 20px; color: #ff9800;">🟠 PRÓXIMOS 7 DÍAS (' + proxima7.length + ')</h3>';
+      if (proxima7.length === 0) {
+        html += '<p style="color: #999;">No hay compras próximas.</p>';
+      } else {
+        html += '<table><thead><tr><th>Proveedor</th><th>Factura</th><th>Monto</th><th>Vencimiento</th></tr></thead><tbody>';
+        proxima7.forEach(c => {
+          const prov = proveedores.find(p => p.id === c.proveedor_id);
+          html += `<tr><td>${prov?.nombre}</td><td>${c.factura}</td><td>$${c.monto.toLocaleString('es-CO', {minimumFractionDigits: 2})}</td><td>${c.vencimiento}</td></tr>`;
+        });
+        html += '</tbody></table>';
+      }
+
+      html += '<h3 style="margin-top: 20px; color: #3B6D11;">🟢 PRÓXIMOS 30 DÍAS (' + proxima30.length + ')</h3>';
+      if (proxima30.length === 0) {
+        html += '<p style="color: #999;">No hay compras.</p>';
+      } else {
+        html += '<table><thead><tr><th>Proveedor</th><th>Factura</th><th>Monto</th><th>Vencimiento</th></tr></thead><tbody>';
+        proxima30.forEach(c => {
+          const prov = proveedores.find(p => p.id === c.proveedor_id);
+          html += `<tr><td>${prov?.nombre}</td><td>${c.factura}</td><td>$${c.monto.toLocaleString('es-CO', {minimumFractionDigits: 2})}</td><td>${c.vencimiento}</td></tr>`;
+        });
+        html += '</tbody></table>';
+      }
+
+      html += '<div class="btn-group" style="margin-top: 20px;"><button class="btn-secondary" onclick="window.print()">🖨️ Imprimir</button></div></div>';
+      document.getElementById('reporte-container').innerHTML = html;
+      switchTab('reportes');
+    }
+
+    // ============= EXPORTAR E IMPORTAR =============
+    function exportarCSV() {
+      let csv = 'COMPRAS\n';
+      csv += 'Proveedor,Factura,Fecha,Monto,Vencimiento,Pagada,Observaciones\n';
+      compras.forEach(c => {
+        const prov = proveedores.find(p => p.id === c.proveedor_id);
+        csv += `"${prov?.nombre}","${c.factura}","${c.fecha}",${c.monto},"${c.vencimiento}","${c.pagada ? 'Sí' : 'No'}","${c.obs}"\n`;
+      });
+
+      csv += '\n\nPROVEEDORES\n';
+      csv += 'Nombre,Ciudad,Plazo,Celular,WhatsApp,Observaciones\n';
+      proveedores.forEach(p => {
+        csv += `"${p.nombre}","${p.ciudad}",${p.plazo},"${p.celular}","${p.whatsapp}","${p.obs}"\n`;
+      });
+
+      const element = document.createElement('a');
+      element.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv));
+      element.setAttribute('download', `compras_elgalan_${new Date().toISOString().split('T')[0]}.csv`);
+      element.style.display = 'none';
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
+
+      alert('✅ Datos exportados a CSV');
+    }
+
+    function respaldarDatos() {
+      const backup = {
+        proveedores,
+        compras,
+        fecha_respaldar: new Date().toISOString()
+      };
+
+      const element = document.createElement('a');
+      element.setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(backup, null, 2)));
+      element.setAttribute('download', `backup_compras_elgalan_${new Date().toISOString().split('T')[0]}.json`);
+      element.style.display = 'none';
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
+
+      alert('✅ Respaldo creado exitosamente');
+    }
+
+    function restaurarDatos() {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.json';
+      input.onchange = e => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = event => {
+          try {
+            const backup = JSON.parse(event.target.result);
+            if (confirm('⚠️ ¿Restaurar todos los datos? Los datos actuales serán reemplazados.')) {
+              proveedores = backup.proveedores;
+              compras = backup.compras;
+              guardarDatos();
+              actualizarUI();
+              alert('✅ Datos restaurados exitosamente');
+            }
+          } catch (err) {
+            alert('❌ Error al leer el archivo de respaldo');
+          }
+        };
+        reader.readAsText(file);
+      };
+      input.click();
+    }
+
+    // ============= NAVEGACIÓN =============
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      
+      document.getElementById(tabName).classList.add('active');
+      document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+
+      if (tabName === 'compras') {
+        document.getElementById('compra-fecha').value = hoy;
+        calcularVencimiento();
+      }
+    }
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        switchTab(btn.dataset.tab);
+      });
+    });
+
+    // Actualizar vencimiento cuando cambia fecha o plazo
+    document.getElementById('compra-fecha').addEventListener('change', calcularVencimiento);
+    document.getElementById('compra-plazo').addEventListener('change', calcularVencimiento);
+
+    // ============= PWA =============
+    if ('serviceWorker' in navigator) {
+      const swCode = `
+self.addEventListener('install', e => self.skipWaiting());
+self.addEventListener('activate', e => self.clients.claim());
+self.addEventListener('fetch', e => e.respondWith(fetch(e.request).catch(() => new Response('Offline'))));
+      `;
+      const blob = new Blob([swCode], {type: 'application/javascript'});
+      const swUrl = URL.createObjectURL(blob);
+      navigator.serviceWorker.register(swUrl).catch(() => {});
+    }
+
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', e => {
+      e.preventDefault();
+      deferredPrompt = e;
+      document.getElementById('installPrompt').classList.add('show');
+    });
+
+    function instalarApp() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(() => {
+          deferredPrompt = null;
+          cerrarInstall();
+        });
+      }
+    }
+
+    function cerrarInstall() {
+      document.getElementById('installPrompt').classList.remove('show');
+    }
+
+    // ============= INICIALIZACIÓN =============
+    document.addEventListener('DOMContentLoaded', () => {
+      cargarDatos();
+      actualizarUI();
+    });
+  </script>
+</body>
+</html>
