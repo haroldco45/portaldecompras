@@ -369,6 +369,151 @@
       }
     }
     
+    .modal-ayuda {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .modal-ayuda.active {
+      display: flex;
+    }
+    
+    .modal-ayuda-content {
+      background: white;
+      border-radius: 8px;
+      width: 100%;
+      max-width: 800px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+    
+    .modal-ayuda-header {
+      background: #BA7517;
+      color: white;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 8px 8px 0 0;
+    }
+    
+    .modal-ayuda-header h2 {
+      margin: 0;
+      font-size: 22px;
+    }
+    
+    .modal-ayuda-close {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 28px;
+      cursor: pointer;
+      padding: 0;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .modal-ayuda-body {
+      padding: 30px;
+    }
+    
+    .ayuda-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #eee;
+      flex-wrap: wrap;
+    }
+    
+    .ayuda-tab-btn {
+      background: none;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+      font-size: 14px;
+      color: #666;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s;
+    }
+    
+    .ayuda-tab-btn:hover {
+      color: #BA7517;
+    }
+    
+    .ayuda-tab-btn.active {
+      color: #BA7517;
+      border-bottom-color: #BA7517;
+      font-weight: 600;
+    }
+    
+    .ayuda-section {
+      display: none;
+    }
+    
+    .ayuda-section.active {
+      display: block;
+    }
+    
+    .ayuda-section h3 {
+      color: #BA7517;
+      font-size: 18px;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+    
+    .ayuda-section p {
+      line-height: 1.8;
+      margin-bottom: 15px;
+      color: #555;
+    }
+    
+    .paso {
+      background: #f9f9f9;
+      border-left: 4px solid #BA7517;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 4px;
+    }
+    
+    .paso strong {
+      color: #BA7517;
+    }
+    
+    .tip {
+      background: #e3f2fd;
+      border-left: 4px solid #2196f3;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 4px;
+      color: #1565c0;
+    }
+    
+    .faq-item {
+      background: #f5f5f5;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 4px;
+    }
+    
+    .faq-item strong {
+      color: #BA7517;
+      display: block;
+      margin-bottom: 8px;
+    }
+    
     @media (max-width: 768px) {
       header h1 {
         font-size: 22px;
@@ -402,6 +547,23 @@
       .action-buttons button {
         width: 100%;
       }
+      
+      .modal-ayuda-header h2 {
+        font-size: 18px;
+      }
+      
+      .modal-ayuda-body {
+        padding: 20px;
+      }
+      
+      .ayuda-tabs {
+        gap: 5px;
+      }
+      
+      .ayuda-tab-btn {
+        padding: 8px 10px;
+        font-size: 12px;
+      }
     }
   </style>
 </head>
@@ -416,6 +578,7 @@
         <button class="tab-btn" data-tab="cartera">Cartera</button>
         <button class="tab-btn" data-tab="proveedores">Proveedores</button>
         <button class="tab-btn" data-tab="reportes">Reportes</button>
+        <button class="tab-btn" onclick="abrirAyuda()" style="margin-left: auto; background: rgba(255,255,255,0.2);">❓ Ayuda</button>
       </div>
     </div>
   </header>
@@ -634,6 +797,250 @@
 
   </div>
 
+  <!-- MODAL DE AYUDA -->
+  <div class="modal-ayuda" id="modalAyuda">
+    <div class="modal-ayuda-content">
+      <div class="modal-ayuda-header">
+        <h2>📚 Manual del Usuario</h2>
+        <button class="modal-ayuda-close" onclick="cerrarAyuda()">×</button>
+      </div>
+      
+      <div class="modal-ayuda-body">
+        <div class="ayuda-tabs">
+          <button class="ayuda-tab-btn active" onclick="cambiarAyudaTab('inicio')">Inicio</button>
+          <button class="ayuda-tab-btn" onclick="cambiarAyudaTab('proveedores')">Proveedores</button>
+          <button class="ayuda-tab-btn" onclick="cambiarAyudaTab('compras')">Compras</button>
+          <button class="ayuda-tab-btn" onclick="cambiarAyudaTab('cartera')">Cartera</button>
+          <button class="ayuda-tab-btn" onclick="cambiarAyudaTab('reportes')">Reportes</button>
+          <button class="ayuda-tab-btn" onclick="cambiarAyudaTab('faq')">FAQ</button>
+        </div>
+
+        <!-- INICIO -->
+        <div id="inicio" class="ayuda-section active">
+          <h3>🚀 Bienvenido al Portal de Compras EL GALAN</h3>
+          <p>Este portal te ayuda a gestionar digitalmente todas tus compras a proveedores, mantener un registro de vencimientos y controlar tu cartera de pagos pendientes.</p>
+          
+          <h3>✨ Características Principales</h3>
+          <div class="paso">
+            <strong>📦 Gestión de Compras</strong><br>
+            Registra cada compra con número de factura, fecha, proveedor y monto. El sistema calcula automáticamente la fecha de vencimiento.
+          </div>
+          
+          <div class="paso">
+            <strong>👥 Gestión de Proveedores</strong><br>
+            Mantén un registro completo de todos tus proveedores con datos de contacto, plazo de crédito y observaciones.
+          </div>
+          
+          <div class="paso">
+            <strong>💰 Cartera de Vencimientos</strong><br>
+            Ve de un vistazo qué compras vencen hoy, próximamente o están vencidas. Organiza tus pagos mejor.
+          </div>
+          
+          <div class="paso">
+            <strong>📊 Reportes</strong><br>
+            Genera reportes de cartera, proveedores y vencimientos. Imprime o exporta a Excel.
+          </div>
+
+          <div class="tip">
+            <strong>💡 Consejo:</strong> Todos tus datos se guardan automáticamente en tu dispositivo. No necesitas conexión a internet después de la primera carga.
+          </div>
+        </div>
+
+        <!-- PROVEEDORES -->
+        <div id="proveedores" class="ayuda-section">
+          <h3>👥 Cómo Registrar Proveedores</h3>
+          
+          <div class="paso">
+            <strong>Paso 1: Abre la sección Proveedores</strong><br>
+            Haz clic en la pestaña "Proveedores" en el menú superior.
+          </div>
+          
+          <div class="paso">
+            <strong>Paso 2: Completa los datos</strong><br>
+            • <strong>Nombre Proveedor (*):</strong> Ej: COLOMBINA, BRINSA<br>
+            • <strong>Ciudad:</strong> Ej: Medellín (opcional)<br>
+            • <strong>Plazo de Crédito:</strong> En días (30, 60, etc.)<br>
+            • <strong>Celular:</strong> Teléfono de contacto<br>
+            • <strong>WhatsApp:</strong> Número para enviar recordatorios<br>
+            • <strong>Observaciones:</strong> Notas adicionales
+          </div>
+          
+          <div class="paso">
+            <strong>Paso 3: Guarda el proveedor</strong><br>
+            Haz clic en "Guardar Proveedor". Verás un mensaje de confirmación.
+          </div>
+
+          <h3>✏️ Editar un Proveedor</h3>
+          <p>En el listado de proveedores, haz clic en el botón ✏️ para editar. Los cambios se guardan inmediatamente.</p>
+
+          <h3>🗑️ Eliminar un Proveedor</h3>
+          <p>Haz clic en 🗑️. <strong>Advertencia:</strong> Se eliminarán todas las compras asociadas a este proveedor.</p>
+
+          <div class="tip">
+            <strong>💡 Consejo:</strong> Usa nombres consistentes para cada proveedor. Siempre escribe "COLOMBINA", no "Colombina" o "colombina".
+          </div>
+        </div>
+
+        <!-- COMPRAS -->
+        <div id="compras" class="ayuda-section">
+          <h3>📦 Cómo Registrar Compras</h3>
+          
+          <div class="paso">
+            <strong>Paso 1: Abre la sección Compras</strong><br>
+            Haz clic en la pestaña "Compras" en el menú superior.
+          </div>
+          
+          <div class="paso">
+            <strong>Paso 2: Selecciona el proveedor</strong><br>
+            En el dropdown "Proveedor (*)", elige a quién le estás comprando. El plazo de crédito se carga automáticamente.
+          </div>
+          
+          <div class="paso">
+            <strong>Paso 3: Ingresa los datos de la compra</strong><br>
+            • <strong>Número de Factura (*):</strong> Ej: FAC-001, 2024-1234<br>
+            • <strong>Fecha de Compra (*):</strong> La fecha del documento<br>
+            • <strong>Monto de Compra ($) (*):</strong> El valor total sin separadores<br>
+            • <strong>Plazo (días):</strong> Se carga del proveedor, puedes cambiarlo<br>
+            • <strong>Fecha de Vencimiento:</strong> Se calcula automáticamente<br>
+            • <strong>Observaciones:</strong> Notas adicionales
+          </div>
+          
+          <div class="paso">
+            <strong>Paso 4: Guarda la compra</strong><br>
+            Haz clic en "Guardar Compra". Verás un mensaje de confirmación.
+          </div>
+
+          <h3>✓ Marcar una Compra como Pagada</h3>
+          <p>En el listado, haz clic en "✓ Pagar" para cambiar el estado. Puedes desmarcarla si fue un error.</p>
+
+          <div class="tip">
+            <strong>💡 Consejo:</strong> La fecha de vencimiento se calcula automáticamente: Fecha de Compra + Plazo. Si cambia el plazo, la fecha se actualiza al instante.
+          </div>
+        </div>
+
+        <!-- CARTERA -->
+        <div id="cartera" class="ayuda-section">
+          <h3>💰 Cartera de Vencimientos</h3>
+          
+          <p>La cartera es el listado de todas las compras que aún no has pagado, ordenadas por fecha de vencimiento.</p>
+          
+          <h3>📊 Análisis de Vencimientos</h3>
+          <p>En la parte superior ves 4 números clave:</p>
+          <div class="paso">
+            <strong>🔴 Vencen Hoy:</strong> Compras que vencen hoy (urgente pagar hoy)<br>
+            <strong>🟠 Próximos 7 días:</strong> Compras que vencen en la próxima semana<br>
+            <strong>🟡 Próximos 30 días:</strong> Compras que vencen en el próximo mes<br>
+            <strong>🔴 Vencidas (atraso):</strong> Compras que ya pasaron su fecha de vencimiento
+          </p>
+
+          <h3>🔍 Filtrar la Cartera</h3>
+          <div class="paso">
+            <strong>Por Proveedor:</strong> Usa la barra de búsqueda para encontrar compras de un proveedor específico.<br>
+            <strong>Por Estado:</strong> Filtra entre compras vencidas, próximas u OK.
+          </div>
+
+          <h3>📱 Contactar Proveedor por WhatsApp</h3>
+          <p>Si registraste el número de WhatsApp del proveedor, verás un botón 📱 WA que abre WhatsApp con un mensaje pre-llenado.</p>
+
+          <div class="tip">
+            <strong>💡 Consejo:</strong> Revisa la cartera diariamente para no olvidar pagos. La ves en el Dashboard al abrir el portal.
+          </div>
+        </div>
+
+        <!-- REPORTES -->
+        <div id="reportes" class="ayuda-section">
+          <h3>📋 Cómo Generar Reportes</h3>
+          
+          <p>Los reportes te ayudan a ver el estado de tu cartera y tomar decisiones.</p>
+          
+          <div class="paso">
+            <strong>📋 Reporte de Cartera</strong><br>
+            Listado de todas las compras pendientes de pago, ordenadas por vencimiento. Incluye montos y días para vencer.
+          </div>
+          
+          <div class="paso">
+            <strong>👥 Reporte de Proveedores</strong><br>
+            Resumen de todos tus proveedores: cuántas compras les has hecho, monto total, plazo de crédito, contactos.
+          </div>
+          
+          <div class="paso">
+            <strong>⏰ Reporte de Vencimientos</strong><br>
+            Análisis por período: qué compras vencen hoy, próximos 7 días, próximos 30 días, y cuáles están vencidas.
+          </div>
+
+          <h3>🖨️ Imprimir un Reporte</h3>
+          <p>Después de generar un reporte, haz clic en "🖨️ Imprimir". Se abrirá la ventana de impresión de tu navegador.</p>
+
+          <h3>📥 Exportar a CSV (Excel)</h3>
+          <p>Haz clic en "📥 Exportar CSV" para descargar un archivo Excel con todas tus compras y proveedores. Puedes analizarlo en más detalle.</p>
+
+          <div class="tip">
+            <strong>💡 Consejo:</strong> Genera reportes semanales y guárdalos como respaldo de tu información.
+          </div>
+        </div>
+
+        <!-- FAQ -->
+        <div id="faq" class="ayuda-section">
+          <h3>❓ Preguntas Frecuentes</h3>
+          
+          <div class="faq-item">
+            <strong>¿Dónde se guardan mis datos?</strong>
+            Los datos se guardan en tu dispositivo (navegador), no en un servidor. Son 100% privados y locales.
+          </div>
+          
+          <div class="faq-item">
+            <strong>¿Puedo acceder desde otro dispositivo?</strong>
+            No, a menos que hagas un respaldo. Usa "💾 Respaldar" para descargar un archivo JSON, luego "♻️ Restaurar" en otro dispositivo.
+          </div>
+          
+          <div class="faq-item">
+            <strong>¿Necesito internet?</strong>
+            No, funciona 100% sin internet después de abrir el portal una vez. Descárgalo en casa y úsalo offline.
+          </div>
+          
+          <div class="faq-item">
+            <strong>¿Puedo eliminar una compra accidentalmente?</strong>
+            Sí, pero pregunta antes de eliminar. Si ocurre, crea un respaldo antes de hacer cambios grandes.
+          </div>
+          
+          <div class="faq-item">
+            <strong>¿Cómo hago respaldo de mis datos?</strong>
+            En el Dashboard, haz clic en "💾 Respaldar". Se descargará un archivo JSON. Guárdalo en seguro. Para restaurar, haz clic en "♻️ Restaurar" y sube el archivo.
+          </div>
+          
+          <div class="faq-item">
+            <strong>¿Puedo exportar a Excel?</strong>
+            Sí, haz clic en "📥 Exportar Datos". Se descargará un CSV que abre en Excel.
+          </div>
+          
+          <div class="faq-item">
+            <strong>¿Qué pasa si borro la caché del navegador?</strong>
+            Se pierden todos los datos. Descarga respaldos regularmente para no perder información.
+          </div>
+          
+          <div class="faq-item">
+            <strong>¿Puedo instalar esta app en mi móvil?</strong>
+            Sí, es un PWA (Progressive Web App). En Android, verás un botón de instalación. En iPhone, usa "Añadir a pantalla de inicio".
+          </div>
+          
+          <div class="faq-item">
+            <strong>¿Hay límite de compras o proveedores?</strong>
+            No, puedes registrar ilimitados. El rendimiento puede ralentizarse con 10,000+ compras.
+          </div>
+          
+          <div class="faq-item">
+            <strong>¿Necesito crear una cuenta?</strong>
+            No, es anónimo. Solo abre el archivo y empieza a usar.
+          </div>
+
+          <div class="tip">
+            <strong>💡 Consejo Final:</strong> Mantén respaldos semanales de tu información. Usa "💾 Respaldar" cada viernes para estar tranquilo.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <footer>
     <p>Portal de Compras - EL GALAN | Desarrollada por Vibras Positivas HM — Derechos de Autor Reservados</p>
     <p style="margin-top: 10px; font-size: 11px;">Datos guardados localmente en tu dispositivo. Sin conexión a internet requerida.</p>
@@ -701,6 +1108,26 @@
         document.getElementById('compra-fecha').value = hoy;
         calcularVencimiento();
       }
+    }
+
+    // ============= AYUDA =============
+    function abrirAyuda() {
+      document.getElementById('modalAyuda').classList.add('active');
+    }
+
+    function cerrarAyuda() {
+      document.getElementById('modalAyuda').classList.remove('active');
+    }
+
+    function cambiarAyudaTab(tabName) {
+      document.querySelectorAll('.ayuda-section').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.ayuda-tab-btn').forEach(el => el.classList.remove('active'));
+      
+      const seccion = document.getElementById(tabName);
+      if (seccion) seccion.classList.add('active');
+      
+      const btn = document.querySelector(`[onclick="cambiarAyudaTab('${tabName}')"]`);
+      if (btn) btn.classList.add('active');
     }
 
     // ============= PROVEEDORES =============
@@ -1244,6 +1671,14 @@
         
         document.querySelectorAll('.tab-btn').forEach(btn => {
           btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+        });
+        
+        // Cerrar modal de ayuda al hacer clic fuera
+        window.addEventListener('click', function(event) {
+          const modal = document.getElementById('modalAyuda');
+          if (event.target === modal) {
+            cerrarAyuda();
+          }
         });
         
         console.log('✅ Portal inicializado');
