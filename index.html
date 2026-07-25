@@ -760,52 +760,99 @@
     let compras = [];
     let hoy = new Date().toISOString().split('T')[0];
 
+    // Verificar si localStorage está disponible
+    function lsDisponible() {
+      try {
+        const test = '__test__';
+        localStorage.setItem(test, test);
+        localStorage.removeItem(test);
+        return true;
+      } catch(e) {
+        console.warn('⚠️ localStorage no disponible', e);
+        return false;
+      }
+    }
+
     // Cargar datos desde localStorage
     function cargarDatos() {
-      const proveedoresLS = localStorage.getItem('proveedores');
-      const comprasLS = localStorage.getItem('compras');
-      
-      if (proveedoresLS) proveedores = JSON.parse(proveedoresLS);
-      if (comprasLS) compras = JSON.parse(comprasLS);
-      
-      actualizarUI();
+      try {
+        if (!lsDisponible()) {
+          console.warn('⚠️ localStorage bloqueado, usando memoria');
+          return;
+        }
+        
+        const proveedoresLS = localStorage.getItem('elgalan_proveedores');
+        const comprasLS = localStorage.getItem('elgalan_compras');
+        
+        if (proveedoresLS) {
+          proveedores = JSON.parse(proveedoresLS);
+          console.log('✅ Proveedores cargados:', proveedores.length);
+        }
+        if (comprasLS) {
+          compras = JSON.parse(comprasLS);
+          console.log('✅ Compras cargadas:', compras.length);
+        }
+        
+        actualizarUI();
+      } catch(err) {
+        console.error('❌ Error cargando datos:', err);
+        alert('⚠️ Error al cargar datos. Intenta recargar la página.');
+      }
     }
 
     function guardarDatos() {
-      localStorage.setItem('proveedores', JSON.stringify(proveedores));
-      localStorage.setItem('compras', JSON.stringify(compras));
+      try {
+        if (!lsDisponible()) {
+          console.warn('⚠️ localStorage bloqueado, datos no guardados');
+          return;
+        }
+        
+        localStorage.setItem('elgalan_proveedores', JSON.stringify(proveedores));
+        localStorage.setItem('elgalan_compras', JSON.stringify(compras));
+        console.log('✅ Datos guardados');
+      } catch(err) {
+        console.error('❌ Error guardando datos:', err);
+        alert('⚠️ Error al guardar datos. Libera espacio en tu dispositivo.');
+      }
     }
 
     // ============= PROVEEDORES =============
     function guardarProveedor() {
-      const nombre = document.getElementById('prov-nombre').value.trim();
-      const ciudad = document.getElementById('prov-ciudad').value.trim();
-      const plazo = parseInt(document.getElementById('prov-plazo').value) || 30;
-      const celular = document.getElementById('prov-celular').value.trim();
-      const whatsapp = document.getElementById('prov-whatsapp').value.trim();
-      const obs = document.getElementById('prov-obs').value.trim();
+      try {
+        const nombre = document.getElementById('prov-nombre').value.trim();
+        const ciudad = document.getElementById('prov-ciudad').value.trim();
+        const plazo = parseInt(document.getElementById('prov-plazo').value) || 30;
+        const celular = document.getElementById('prov-celular').value.trim();
+        const whatsapp = document.getElementById('prov-whatsapp').value.trim();
+        const obs = document.getElementById('prov-obs').value.trim();
 
-      if (!nombre) {
-        alert('Por favor ingresa el nombre del proveedor');
-        return;
+        if (!nombre) {
+          alert('⚠️ Por favor ingresa el nombre del proveedor');
+          document.getElementById('prov-nombre').focus();
+          return;
+        }
+
+        const id = Date.now().toString();
+        proveedores.push({
+          id,
+          nombre,
+          ciudad,
+          plazo,
+          celular,
+          whatsapp,
+          obs,
+          fecha_creacion: new Date().toISOString()
+        });
+
+        guardarDatos();
+        limpiarFormProveedor();
+        console.log('✅ Proveedor guardado:', nombre);
+        alert('✅ Proveedor registrado exitosamente');
+        actualizarUI();
+      } catch(err) {
+        console.error('❌ Error guardando proveedor:', err);
+        alert('❌ Error al guardar proveedor. Intenta de nuevo.');
       }
-
-      const id = Date.now().toString();
-      proveedores.push({
-        id,
-        nombre,
-        ciudad,
-        plazo,
-        celular,
-        whatsapp,
-        obs,
-        fecha_creacion: new Date().toISOString()
-      });
-
-      guardarDatos();
-      limpiarFormProveedor();
-      alert('✅ Proveedor registrado exitosamente');
-      actualizarUI();
     }
 
     function limpiarFormProveedor() {
@@ -863,42 +910,53 @@
 
     // ============= COMPRAS =============
     function guardarCompra() {
-      const prov_id = document.getElementById('compra-proveedor').value;
-      const factura = document.getElementById('compra-factura').value.trim();
-      const fecha = document.getElementById('compra-fecha').value;
-      const monto = parseFloat(document.getElementById('compra-monto').value);
-      const plazo = parseInt(document.getElementById('compra-plazo').value);
-      const vencimiento = document.getElementById('compra-vencimiento').value;
-      const obs = document.getElementById('compra-obs').value.trim();
+      try {
+        const prov_id = document.getElementById('compra-proveedor').value;
+        const factura = document.getElementById('compra-factura').value.trim();
+        const fecha = document.getElementById('compra-fecha').value;
+        const monto = parseFloat(document.getElementById('compra-monto').value);
+        const plazo = parseInt(document.getElementById('compra-plazo').value);
+        const vencimiento = document.getElementById('compra-vencimiento').value;
+        const obs = document.getElementById('compra-obs').value.trim();
 
-      if (!prov_id || !factura || !fecha || !monto) {
-        alert('Por favor completa los campos obligatorios (*)');
-        return;
+        if (!prov_id || !factura || !fecha || !monto) {
+          alert('⚠️ Por favor completa los campos obligatorios (*)');
+          return;
+        }
+
+        if (isNaN(monto) || monto <= 0) {
+          alert('⚠️ El monto debe ser un número válido y mayor a 0');
+          return;
+        }
+
+        if (compras.some(c => c.proveedor_id === prov_id && c.factura === factura)) {
+          alert('⚠️ Ya existe una compra con este número de factura para este proveedor');
+          return;
+        }
+
+        const id = Date.now().toString();
+        compras.push({
+          id,
+          proveedor_id: prov_id,
+          factura,
+          fecha,
+          monto,
+          plazo,
+          vencimiento,
+          pagada: false,
+          obs,
+          fecha_registro: new Date().toISOString()
+        });
+
+        guardarDatos();
+        limpiarFormCompra();
+        console.log('✅ Compra guardada:', factura, 'Monto:', monto);
+        alert('✅ Compra registrada exitosamente');
+        actualizarUI();
+      } catch(err) {
+        console.error('❌ Error guardando compra:', err);
+        alert('❌ Error al guardar compra. Intenta de nuevo.');
       }
-
-      if (compras.some(c => c.proveedor_id === prov_id && c.factura === factura)) {
-        alert('Ya existe una compra con este número de factura para este proveedor');
-        return;
-      }
-
-      const id = Date.now().toString();
-      compras.push({
-        id,
-        proveedor_id: prov_id,
-        factura,
-        fecha,
-        monto,
-        plazo,
-        vencimiento,
-        pagada: false,
-        obs,
-        fecha_registro: new Date().toISOString()
-      });
-
-      guardarDatos();
-      limpiarFormCompra();
-      alert('✅ Compra registrada exitosamente');
-      actualizarUI();
     }
 
     function limpiarFormCompra() {
@@ -1487,15 +1545,7 @@
       }
     }
 
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        switchTab(btn.dataset.tab);
-      });
-    });
 
-    // Actualizar vencimiento cuando cambia fecha o plazo
-    document.getElementById('compra-fecha').addEventListener('change', calcularVencimiento);
-    document.getElementById('compra-plazo').addEventListener('change', calcularVencimiento);
 
     // ============= PWA =============
     if ('serviceWorker' in navigator) {
@@ -1531,9 +1581,39 @@ self.addEventListener('fetch', e => e.respondWith(fetch(e.request).catch(() => n
     }
 
     // ============= INICIALIZACIÓN =============
-    document.addEventListener('DOMContentLoaded', () => {
-      cargarDatos();
-      actualizarUI();
+    window.addEventListener('load', () => {
+      console.log('🚀 Portal de Compras EL GALAN iniciando...');
+      
+      try {
+        // Cargar datos
+        cargarDatos();
+        
+        // Establecer fecha de hoy por defecto
+        document.getElementById('compra-fecha').value = hoy;
+        
+        // Event listeners para cambios automáticos
+        document.getElementById('compra-fecha').addEventListener('change', calcularVencimiento);
+        document.getElementById('compra-plazo').addEventListener('change', calcularVencimiento);
+        document.getElementById('compra-proveedor').addEventListener('change', function() {
+          const prov = proveedores.find(p => p.id === this.value);
+          if (prov) {
+            document.getElementById('compra-plazo').value = prov.plazo;
+            calcularVencimiento();
+          }
+        });
+        
+        // Tab buttons
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            switchTab(btn.dataset.tab);
+          });
+        });
+        
+        console.log('✅ Portal inicializado correctamente');
+      } catch(err) {
+        console.error('❌ Error en inicialización:', err);
+        alert('❌ Error al inicializar. Recarga la página.');
+      }
     });
   </script>
 </body>
