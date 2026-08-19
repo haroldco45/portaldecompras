@@ -1,4 +1,4 @@
-# 📦 Portal de Compras - EL GALAN
+# 📦 Portal de Compras 
 
 **Sistema PWA de Gestión Digital de Compras a Proveedores**
 
@@ -213,7 +213,7 @@ Contacta al desarrollador.
 
 ## 🌟 Versión
 
-**Portal de Compras EL GALAN v1.0**
+**Portal de Compras**
 - Lanzamiento: 2026
 - Última actualización: Julio 2026
 
